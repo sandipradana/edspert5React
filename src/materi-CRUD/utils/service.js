@@ -22,9 +22,32 @@ const getCourses = () => {
   return response;
 };
 
+const updateCourse = (courseId, payload) => {
+  const listCourses = storageManager.get();
+  const updatedCourse = listCourses.map((item) => {
+    if (item.id === courseId) {
+      return {
+        ...item,
+        ...payload,
+      };
+    }
+    return item;
+  });
+  storageManager.set(updatedCourse);
+};
+
+const deleteCourse = (courseId) => {
+  const listCourses = storageManager.get();
+  const newCourses = listCourses.filter((item) => item.id !== courseId);
+
+  storageManager.set(newCourses);
+};
+
 const courseService = {
   addCourse,
   getCourses,
+  updateCourse,
+  deleteCourse,
 };
 
 export default courseService;

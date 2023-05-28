@@ -1,14 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 
-const CourseCreateModal = ({ show, handleClose, handleSubmit }) => {
+const CourseEditModal = ({ show, handleClose, handleSubmit, data }) => {
   const [courseName, setCourseName] = useState("");
   const [description, setDescription] = useState("");
 
   const onSubmit = () => {
-    const timeStamp = Math.floor(Date.now() / 1000);
     const submitPayload = {
-      id: timeStamp,
+      id: data.id,
       name: courseName,
       description,
     };
@@ -16,10 +15,15 @@ const CourseCreateModal = ({ show, handleClose, handleSubmit }) => {
     handleSubmit(submitPayload);
   };
 
+  useEffect(() => {
+    setCourseName(data.name);
+    setDescription(data.description);
+  }, [data]);
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>Add</Modal.Title>
+        <Modal.Title>Edit</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -29,6 +33,7 @@ const CourseCreateModal = ({ show, handleClose, handleSubmit }) => {
               onChange={(e) => setCourseName(e.target.value)}
               type="text"
               placeholder="Enter name"
+              defaultValue={courseName}
             />
           </Form.Group>
 
@@ -38,6 +43,7 @@ const CourseCreateModal = ({ show, handleClose, handleSubmit }) => {
               onChange={(e) => setDescription(e.target.value)}
               as={"textarea"}
               placeholder="Decription"
+              defaultValue={description}
             />
           </Form.Group>
         </Form>
@@ -54,4 +60,4 @@ const CourseCreateModal = ({ show, handleClose, handleSubmit }) => {
   );
 };
 
-export default CourseCreateModal;
+export default CourseEditModal;
