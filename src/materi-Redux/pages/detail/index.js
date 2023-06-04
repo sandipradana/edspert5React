@@ -2,7 +2,8 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getProduct } from "../../store/product/action";
 import { useEffect } from "react";
-import { Col, Container, Image, Row } from "react-bootstrap";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
+import { addItem } from "../../store/cart/slice";
 
 const DetailPage = () => {
   const {id} = useParams();
@@ -27,6 +28,7 @@ const DetailPage = () => {
         <h3>{entity.title}</h3>
         <p>{entity.description}</p>
         <h5>$ {entity.price}</h5>
+        <Button variant="success" onClick={() => dispatch(addItem(entity))}>Add to cart</Button>
       </Col>
     </Row>
   </Container>;
